@@ -34,3 +34,34 @@ export async function consultarCarro() {
 
     return info
 }
+
+export async function alterarCarro (id, carro) {
+    const comando = `
+    update tb_carro
+        set ds_marca = ?,
+            ds_modelo = ?,
+            nr_ano = ?,
+            vl_preco = ?,
+            dt_inclusao = ?
+
+    where id_carro = ?;        
+`
+
+let resposta = await con.query(comando, [carro.marca, carro.modelo, carro.ano, carro.preco, carro.inclusao, id])
+let info = resposta[0];
+
+return info.affectedRows;
+}
+
+export async function removerCarro(id){
+    const comando = `
+    delete from tb_carro
+    where id_carro = ?
+`
+
+let resposta = await con.query(comando, [id]);
+let info = resposta[0];
+
+return info.affectedRows;
+
+}
